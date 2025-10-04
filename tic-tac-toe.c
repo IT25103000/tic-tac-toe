@@ -104,4 +104,88 @@ int main() {
 	return 0;
 
 }
+void displayWelcome(){
+	printf("..Welcome to Tic-Tac -Toe..\n");
+	printf("Rules:\n");
+	printf("- 2 or 3 player can play.\n");
+	printf("-File a row,column or diagonal to win,\n");
+	printf("-Board size range: 3 to 10\n");
+}
+void initBoard(char**board,int size){
+	for(int i = 0;i< size; i++)
+		for(int j = 0;j < size;j++)
+			board[i][j] = '-';
 
+	void printBoard(char**board,int size){
+		printf("\n");
+
+		for(int c = 0; c < size;c++)
+			printf("%2d",c + 1);
+		printf("\n");
+
+		for(int r = 0;r < size;r++){
+			printf("%2d",r + 1);
+			for(int c = 0;c < size;c++){
+				printf("%c",board[r][c]);
+				if(c < size-1)
+					printf("|");
+			}
+			printf("\n");
+			if(r < size -1){
+				printf(" ");
+				for (int c = 0;c < size:c++){
+					printf("---");
+					if(c < size-1)
+						printf("+");
+				}
+				printf("\n");
+			}
+		}
+		printf("\n");
+	}
+	//Validate move
+	int validMove(char**board,int size,int row,int col){
+		if(row < 0||row >=size)
+			return 0;
+		if(col < 0||col >=size)
+			return 0;
+		return 1;
+	}
+
+
+	//Check for winner
+	int checkWinner(char**board,int size,char mark){
+		//Check Rows
+		for(int r = 0;r < size;r++){
+			int ok = 1;
+			for(int c = 0;c < size;c++){
+				if(board[r][c] !=mark){
+					ok = 0;
+					break;
+				}
+			}
+			if(ok)
+				return 1;
+		}
+		//Check Columns
+		for(int c = 0;c < size;c++){
+			int ok = 1;
+			for(int r = 0;r < size;r++){
+				if(board[r][c] != mark){
+					ok = 0;
+					break;
+				}
+			}
+			if(ok)
+				return 1;
+
+			//Check Anti-Diagonal
+			ok = 1;
+			for(int i = 0;i < size;i+=){
+				if(board[i][size - 1-i] !=mark){
+					ok = 0;
+					break;
+				}
+			}
+			return ok;
+		}
