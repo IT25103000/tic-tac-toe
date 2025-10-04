@@ -18,8 +18,8 @@ int main() {
 	srand((unsigned int)time(NULL));
 
 	int size,mode,totalPlayer;
-	char symbols[Max_players] = {'X','o','Z'};
-	int playerType[Max_Player]; // 0=human, 1=computer
+	char symbols[Max_player] = {'X','o','Z'};
+	int playerType[Max_player]; // 0=human, 1=computer
         
 	displayWelcome();
 	
@@ -31,7 +31,7 @@ int main() {
 	}
 	while(1){
 		printf("Select mode:\n");
-		prints("1.Human vs Human\n");
+		printf("1.Human vs Human\n");
 		printf("2.Human vs Computer\n");
 		printf("3.Custom(2-3 players with type)\n");
 		printf("Enter option(1-3):");
@@ -188,4 +188,86 @@ void initBoard(char**board,int size){
 				}
 			}
 			return ok;
+		
+		}
+		//Check if board is full
+		int boardFilled(char**board,int size){
+			for(int r = 0;r < size;r++)
+				for(int c = 0;c < size;c++)
+					if(board[r][c] =='-')
+						return 0;
+			return 1;
+		}
+
+		//Human turn
+		void humanTurn(char**board,int size,char mark){
+			int r,c;
+			while(1){
+				printf("Enter row and column:");
+				scanf("%d%d%d",&r,&c);
+				r--;
+				c--;
+				if(validMove(board,size,r,c)){
+					board[r][c] = mark;
+					break;
+				}
+				else{
+					printf("Invalid Move,Try Again..\n");
+				}
+			}
+		}
+		//Computer turn
+		void computerTurn(char**board,int size,char mark,char opponent){
+			int r,c;
+
+			//1.Try to win
+			for(int i = 0;i< size;i++){
+				for(int j = 0;j< size;j++){
+					if(validMove(board,size,i,j)){
+						board[i][j] = mark;
+						if(checkWinner(board,size,mark)){
+							printf("computer plays at(%d%d) to WIN\n",i + 1,j + 1);
+							return;
+						}
+						board[i][j] = '-';
+					}
+				}
+			}
+			//2.Try to block opponent
+			for (int i = 0;i< size;i++){
+				for(int j = 0;j< size,j++){
+					if(validMove(board,size,i,j)){
+
+						board[i][j] = opponent;
+						if(checkWinner(board,size,opponent)){
+							board[i][j] = mark;
+							printf("Computer blocks at(%d,%d)\n",i+1,j+1);
+							return;
+						}
+						board[i][j] = '-';
+					}
+				}
+			}
+			
+			//3.Else random
+			do{
+				r= rand() % size;
+				c = rand() % size;
+			}
+			while(!validMove(board,size,r,c));
+
+			board[r][c] = mark;
+			printf("Computer chooses random(%d,%d)\n",r + 1,c + 1);
+		}
+
+		//Ask player type
+	        int getPlayerType(char symbol){
+			int type;
+			while(1){
+				printf("Player %c - 0 = Human,1 = Computer:".symbol);
+				scanf("%d",&type);
+				if(type == 0 ||type ==1)
+					return type;
+				printf("Invalid..!Enter 0 or 1.\n");
+			}
 		}
