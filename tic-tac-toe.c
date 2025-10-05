@@ -8,7 +8,7 @@ void displayWelcome();
 void initBoard(char**board,int size);
 void printBoard(char**board,int size);
 int validMove(char**board,int size,int row,int col);
-int cheakWinner(char**board,int size,char mark);
+int checkWinner(char**board,int size,char mark);
 int boardFilled(char**board,int size);
 void humanTurn(char**board,int size,char mark);
 void computerTurn(char**board,int size,char mark,char opponent);
@@ -36,29 +36,30 @@ int main() {
 		printf("3.Custom(2-3 players with type)\n");
 		printf("Enter option(1-3):");
 		scanf("%d",&mode);
-		if(mode >= 1 && mode <= 3)break;
+		if(mode >= 1 && mode <= 3)
+			break;
 		printf("Invalid option .choose 1,2 or 3.\n");
 	}
 
 	if(mode == 1){
-		totalplayers = 2;
+		totalplayer = 2;
 		playerType[0] = 0;
 		playerType[1] = 0;
 	}
 	else if (mode == 2){
-		totalPlayers = 2;
+		totalPlayer = 2;
 		playerType[0] = 0;
 		playerType[1] = 1;
 	}
 	else{
 		while(1) {
 			printf("Enter total number of players(2 or 3):");
-			scanf("%d",&totalPlayers);
-			if(totalPlayers >= 2 && totalPlayers <= 3)
+			scanf("%d",&totalPlayer);
+			if(totalPlayer >= 2 && totalPlayer <= 3)
 				break;
 			printf("Invalid number.Enter 2 or 3.\n");
 		}
-		for(int i = 0;i<totalPlayers;i++){
+		for(int i = 0;i<totalPlayer;i++){
 			playerType[i] = getPlayerType(symbols[i]);
 		}
 	}
@@ -94,7 +95,7 @@ int main() {
 			gameOver = 1;
 		}
 		else{
-			currentTurn = (currentturn + 1)% totalPlayer;
+			currentTurn = (currentTurn + 1)% totalPlayer;
 		}
 	}
 	for(int i = 0; i< size;i++){
@@ -133,7 +134,7 @@ void initBoard(char**board,int size){
 			printf("\n");
 			if(r < size -1){
 				printf(" ");
-				for (int c = 0;c < size:c++){
+				for (int c = 0;c < size;c++){
 					printf("---");
 					if(c < size-1)
 						printf("+");
